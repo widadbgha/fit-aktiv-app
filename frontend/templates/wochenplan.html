@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Wochenplan{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Wochenplan</h1>
+  <p class="muted">{{ studio.name }} &middot; Kalenderwoche {{ kw }}</p>
+</div>
+
+<div class="toolbar">
+  <form method="get" class="inline-form">
+    {% if g.user.rolle == 'chef' %}
+    <label>Studio
+      <select name="studio" onchange="this.form.submit()">
+        {% for s in studios %}
+        <option value="{{ s.id }}" {{ 'selected' if s.id==studio_id }}>{{ s.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    <label>KW
+      <input type="number" name="kw" value="{{ kw }}" min="1" max="53" style="width:5em">
+    </label>
+    <button class="btn" type="submit">Anzeigen</button>
+  </form>
+
+  <div class="kw-nav">
+    <a class="btn btn-small" href="{{ url_for('wochenplan', studio=studio_id, kw=kw-1) }}">&laquo; KW {{ kw-1 }}</a>
+    <a class="btn btn-small" href="{{ url_for('wochenplan', studio=studio_id, kw=kw+1) }}">KW {{ kw+1 }} &raquo;</a>
+  </div>
+
+  <form method="post" action="{{ url_for('wochenplan_generieren') }}" class="inline-form">
+    <input type="hidden" name="kw" value="{{ kw }}">
+    <input type="hidden" name="studio" value="{{ studio_id }}">
+    <button class="btn btn-primary" type="submit">Plan für dieses Studio generieren</button>
+    {% if g.user.rolle == 'chef' %}
+    <button class="btn" type="submit" name="alle" value="1">Alle Studios generieren</button>
+    {% endif %}
+  </form>
+</div>
+
+<div class="legend">
+  <span class="legend-item"><span class="swatch sw-normal"></span> Normaler Kurs</span>
+  <span class="legend-item"><span class="swatch sw-vertretung"></span> Vertretung</span>
+  <span class="legend-item"><span class="swatch sw-ausgefallen"></span> Ausgefallen</span>
+</div>
+
+<table class="plan">
+  <thead>
+    <tr>
+      <th class="timecol">Zeit</th>
+      {% for t in TAGE %}<th>{{ TAGE[t] }}<span class="th-date">{{ daten[t] }}</span></th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in SLOTS %}
+    <tr>
+      <th class="timecol">{{ SLOTS[u] }}</th>
+      {% for t in TAGE %}
+      <td>
+        {% for e in grid[u][t] %}
+          {% if e.ausgefallen %}
+            <div class="cell cell-ausgefallen">
+              <div class="cell-top"><span class="cell-kurs">{{ e.kurs }}</span><span class="cell-room">Raum {{ e.raum }}</span></div>
+              <div class="cell-info">Ausgefallen</div>
+            </div>
+          {% elif e.vertretung %}
+            <div class="cell cell-vertretung">
+              <div class="cell-top"><span class="cell-kurs">{{ e.kurs }}</span><span class="cell-room">Raum {{ e.raum }}</span></div>
+              <div class="cell-info">{{ e.trainer }} (Vertretung)</div>
+            </div>
+          {% else %}
+            <div class="cell cell-normal">
+              <div class="cell-top"><span class="cell-kurs">{{ e.kurs }}</span><span class="cell-room">Raum {{ e.raum }}</span></div>
+              <div class="cell-info">{{ e.trainer }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

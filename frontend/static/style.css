@@ -1,0 +1,217 @@
+/* ============================================================
+   Fit & Aktiv – Kurs- und Trainerverwaltung
+   Eigenes Erscheinungsbild (Praesentationsschicht).
+   Layout: feste Seitenleisten-Navigation + Inhaltsbereich
+   mit Seitenkopf (Kopfzeile) gemaess GUI-Design (Kapitel 7).
+   Die Ampelfarben des Wochenplans (blau/orange/rot) entsprechen
+   der Doku-Legende (FA-14, Abb. 3).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#10241f;          /* Markenton (dunkles Tannengruen) */
+  --ink-2:#163a30;
+  --akzent:#2bd4a0;       /* frischer Mint-Akzent */
+  --akzent-tief:#0f9e76;
+  --sand:#f3f1ea;         /* warmer Hintergrund */
+  --linie:#e2ded3;
+  --linie-2:#cfc9ba;
+  --text:#1d2522;
+  --text-leise:#6f7a72;
+  /* Wochenplan-Ampel (Doku-Legende) */
+  --plan-normal:#2f6fd0;
+  --plan-vertretung:#e08a1e;
+  --plan-ausfall:#d23b34;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Inter",system-ui,Arial,sans-serif;
+  color:var(--text);
+  background:var(--sand);
+  line-height:1.55;
+}
+h1,h2,h3,.logo{font-family:"Sora","Inter",sans-serif}
+
+/* ---- Grundgeruest: Seitenleiste + Inhalt ---- */
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:236px;flex-shrink:0;background:var(--ink);color:#dfeee7;
+  display:flex;flex-direction:column;padding:1.3rem 1rem;
+  position:sticky;top:0;height:100vh;
+}
+.sb-brand{display:flex;align-items:center;gap:.6rem;padding:.2rem .4rem 1.3rem}
+.sb-mark{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;
+  background:var(--akzent);color:var(--ink);font-family:"Sora";font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-size:1.05rem;
+}
+.sb-name{font-family:"Sora";font-weight:700;font-size:1.05rem;color:#fff;line-height:1}
+.sb-tag{font-size:.66rem;color:#7fb6a4;letter-spacing:.06em;text-transform:uppercase}
+.sb-nav{display:flex;flex-direction:column;gap:.18rem;margin-top:.4rem}
+.sb-nav a{
+  display:flex;align-items:center;gap:.7rem;color:#c4d9d1;text-decoration:none;
+  padding:.6rem .7rem;border-radius:9px;font-size:.92rem;font-weight:500;
+}
+.sb-nav a svg{width:18px;height:18px;flex-shrink:0;opacity:.85}
+.sb-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.sb-nav a.active{background:var(--akzent);color:var(--ink)}
+.sb-nav a.active svg{opacity:1}
+.sb-foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.12);padding-top:.9rem}
+.sb-user{font-size:.9rem;font-weight:600;color:#fff}
+.sb-role{font-size:.72rem;color:#7fb6a4;margin-bottom:.6rem}
+.sb-logout{
+  display:inline-flex;align-items:center;gap:.4rem;color:#cfe7df;text-decoration:none;
+  border:1px solid rgba(255,255,255,.25);padding:.4rem .8rem;border-radius:8px;font-size:.82rem;
+}
+.sb-logout:hover{background:rgba(255,255,255,.1);color:#fff}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.content{padding:1.8rem 2rem;max-width:1120px;width:100%}
+.pagefoot{margin-top:auto;text-align:center;color:#9aa39b;font-size:.78rem;padding:1.2rem}
+
+/* ---- Seitenkopf ---- */
+.page-head{margin-bottom:.4rem}
+.page-head h1{margin:.1rem 0;font-size:1.7rem;font-weight:700;color:var(--ink)}
+.muted{color:var(--text-leise);margin-top:0}
+
+/* ---- Karten ---- */
+.card{
+  background:#fff;border:1px solid var(--linie);border-radius:16px;
+  padding:1.3rem 1.5rem;margin:1.1rem 0;
+}
+.card h2{margin-top:0;font-size:1.18rem;font-weight:600;color:var(--ink)}
+
+/* ---- Buttons ---- */
+.btn{
+  display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--linie-2);
+  background:#fff;color:var(--text);padding:.5rem 1rem;border-radius:10px;cursor:pointer;
+  text-decoration:none;font-size:.9rem;font-weight:500;font-family:inherit;
+}
+.btn:hover{border-color:var(--ink);background:#faf9f5}
+.btn-primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn-primary:hover{background:var(--ink-2)}
+.btn-accent{background:var(--akzent);border-color:var(--akzent);color:var(--ink)}
+.btn-accent:hover{background:var(--akzent-tief);border-color:var(--akzent-tief);color:#fff}
+.btn-danger{background:var(--plan-ausfall);border-color:var(--plan-ausfall);color:#fff}
+.btn-danger:hover{filter:brightness(.93)}
+.btn-small{padding:.3rem .65rem;font-size:.8rem;border-radius:8px}
+
+/* ---- Formulare ---- */
+.inline-form{display:flex;gap:.8rem;align-items:flex-end;flex-wrap:wrap}
+.form-grid{display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap}
+label{font-size:.82rem;color:var(--text-leise);display:flex;flex-direction:column;gap:.3rem;font-weight:500}
+input[type=text],input[type=password],input[type=date],input[type=number],select{
+  padding:.5rem .6rem;border:1px solid var(--linie-2);border-radius:9px;
+  font-size:.92rem;background:#fff;font-family:inherit;color:var(--text);
+}
+input:focus,select:focus{outline:none;border-color:var(--akzent-tief);box-shadow:0 0 0 3px rgba(43,212,160,.18)}
+.studios-field{border:1px solid var(--linie-2);border-radius:9px;padding:.55rem .85rem}
+.studios-field legend{font-size:.78rem;color:var(--text-leise);padding:0 .3rem}
+.check{flex-direction:row;align-items:center;gap:.4rem;font-weight:400;color:var(--text)}
+.edit-form{margin-top:.8rem;padding:.9rem;background:var(--sand);border-radius:12px}
+
+/* ---- Toolbar ---- */
+.toolbar{display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;margin:1rem 0;justify-content:space-between}
+.kw-nav{display:flex;gap:.4rem}
+
+/* ---- KPI / Dashboard ---- */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.3rem 0}
+.kpi-card{background:#fff;border:1px solid var(--linie);border-radius:16px;padding:1.3rem;position:relative;overflow:hidden}
+.kpi-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--akzent)}
+.kpi-value{font-family:"Sora";font-size:2.3rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-label{color:var(--text-leise);font-size:.88rem;margin-top:.45rem}
+.quicklinks{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+
+/* ---- Wochenplan-Tabelle ---- */
+table.plan{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--linie);border-radius:14px;overflow:hidden}
+table.plan th,table.plan td{border-bottom:1px solid var(--linie);border-right:1px solid var(--linie);padding:.45rem;vertical-align:top}
+table.plan tr td:last-child,table.plan tr th:last-child{border-right:none}
+table.plan tbody tr:last-child td,table.plan tbody tr:last-child th{border-bottom:none}
+table.plan thead th{background:var(--ink);color:#fff;font-weight:600;font-size:.88rem;font-family:"Sora"}
+table.plan .timecol{background:var(--sand);font-weight:600;text-align:center;white-space:nowrap;width:62px;color:var(--ink)}
+table.plan td{height:54px;min-width:118px}
+
+.cell{border-radius:9px;padding:.4rem .55rem;margin-bottom:.35rem;font-size:.82rem;border-left:4px solid}
+.cell:last-child{margin-bottom:0}
+.cell-top{display:flex;justify-content:space-between;align-items:baseline;gap:.35rem}
+.cell-kurs{font-weight:600}
+.cell-room{font-size:.64rem;font-weight:600;background:rgba(16,36,31,.13);border-radius:5px;
+  padding:.04rem .36rem;white-space:nowrap;flex-shrink:0}
+.cell-info{font-size:.75rem;opacity:.85}
+.th-date{display:block;font-family:"Inter",sans-serif;font-weight:400;font-size:.7rem;color:#9fc4b7;margin-top:.12rem}
+.cell-normal{background:#e9f0fb;border-color:var(--plan-normal);color:#163a6b}
+.cell-vertretung{background:#fcefdb;border-color:var(--plan-vertretung);color:#7a4d10}
+.cell-ausgefallen{background:#fbe3e1;border-color:var(--plan-ausfall);color:#7c1f1a}
+
+/* ---- Legende ---- */
+.legend{display:flex;gap:1.4rem;margin:.6rem 0 1rem;font-size:.85rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:.45rem;color:var(--text)}
+.swatch{width:16px;height:16px;border-radius:5px;border-left:4px solid}
+.sw-normal{background:#e9f0fb;border-color:var(--plan-normal)}
+.sw-vertretung{background:#fcefdb;border-color:var(--plan-vertretung)}
+.sw-ausgefallen{background:#fbe3e1;border-color:var(--plan-ausfall)}
+
+/* ---- Datentabellen ---- */
+table.data{width:100%;border-collapse:collapse;font-size:.9rem}
+table.data th,table.data td{border-bottom:1px solid var(--linie);padding:.6rem .65rem;text-align:left}
+table.data thead th{color:var(--text-leise);font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.row-actions{display:flex;gap:.4rem;align-items:flex-start;flex-wrap:wrap}
+.tag{font-size:.74rem;padding:.14rem .55rem;border-radius:999px;font-weight:600}
+.tag-ok{background:#dbf3e8;color:var(--akzent-tief)}
+.tag-bad{background:#fbe3e1;color:var(--plan-ausfall)}
+.badge{font-size:.74rem;padding:.16rem .6rem;border-radius:999px;margin-left:.4rem;font-weight:600}
+.badge-krank{background:#fbe3e1;color:var(--plan-ausfall)}
+
+/* ---- Flash-Meldungen ---- */
+.flashes{margin-bottom:1rem}
+.flash{padding:.75rem 1rem;border-radius:11px;margin-bottom:.6rem;font-size:.9rem;border:1px solid;border-left-width:4px}
+.flash-success{background:#e4f6ee;border-color:var(--akzent-tief);color:#0c6a4f}
+.flash-error{background:#fbe3e1;border-color:var(--plan-ausfall);color:#7c1f1a}
+.flash-warning{background:#fcefdb;border-color:var(--plan-vertretung);color:#7a4d10}
+.flash-info{background:#e9f0fb;border-color:var(--plan-normal);color:#163a6b}
+
+/* ---- Login ---- */
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 30% 20%, #1c4a3d, var(--ink));padding:1rem}
+.login-card{background:#fff;border-radius:20px;padding:2.4rem 2.4rem;width:380px;
+  box-shadow:0 18px 50px rgba(0,0,0,.3);text-align:center}
+.login-mark{width:56px;height:56px;border-radius:16px;margin:0 auto .9rem;
+  background:var(--akzent);color:var(--ink);font-family:"Sora";font-weight:700;font-size:1.5rem;
+  display:flex;align-items:center;justify-content:center}
+.login-title{font-family:"Sora";font-weight:700;font-size:1.4rem;color:var(--ink);margin:0}
+.login-sub{color:var(--text-leise);margin:.2rem 0 1.4rem;font-size:.9rem}
+.login-form{display:flex;flex-direction:column;gap:.45rem;text-align:left}
+.login-form label{margin-top:.5rem}
+.login-hint{font-size:.78rem;color:var(--text-leise);margin-top:1.1rem}
+code{background:var(--sand);padding:.06rem .4rem;border-radius:5px;font-size:.85em;font-family:"Inter"}
+
+details summary{display:inline-block;list-style:none;cursor:pointer}
+details summary::-webkit-details-marker{display:none}
+
+/* ---- Zugangsverwaltung ---- */
+.ztable{border:1px solid var(--linie);border-radius:12px;overflow:hidden}
+.zhead,.zrow{display:grid;grid-template-columns:1.3fr 1.5fr 1fr 1.4fr auto;gap:.8rem;
+  align-items:center;padding:.55rem .9rem;border-bottom:1px solid var(--linie)}
+.zhead{background:var(--sand);font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--text-leise);font-weight:600}
+.zrow:last-child{border-bottom:none}
+.zrow:nth-child(even){background:#fbfaf6}
+.zrole{font-size:.85rem;color:var(--text-leise)}
+.zrow input{width:100%}
+@media (max-width:760px){
+  .zhead{display:none}
+  .zrow{grid-template-columns:1fr 1fr;gap:.5rem}
+}
+
+@media (max-width:760px){
+  .layout{flex-direction:column}
+  .sidebar{width:auto;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:.6rem}
+  .sb-nav{flex-direction:row;flex-wrap:wrap;margin-top:0}
+  .sb-foot{margin:0 0 0 auto;border:none;padding:0;display:flex;gap:.6rem;align-items:center}
+  .sb-brand{padding:0 .4rem 0 0}
+  .content{padding:1.2rem}
+}

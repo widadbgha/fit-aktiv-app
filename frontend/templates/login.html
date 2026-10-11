@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Anmelden{% endblock %}
+{% block content_anon %}
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-mark">FA</div>
+    <div class="login-title">Fit &amp; Aktiv</div>
+    <div class="login-sub">Kurs- und Trainerverwaltung</div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="flash flash-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="post" class="login-form">
+      <label for="username">Benutzername
+        <input id="username" name="username" type="text" autofocus required></label>
+      <label for="password">Passwort
+        <input id="password" name="password" type="password" required></label>
+      <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center;margin-top:.8rem">Anmelden</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

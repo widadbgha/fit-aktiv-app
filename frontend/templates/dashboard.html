@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Willkommen, {{ g.user.name }}!</h1>
+  <p class="muted">Angemeldet als
+    {{ {'chef':'Chef','manager':'Studio-Manager','trainer':'Trainer'}[g.user.rolle] }}
+    {% if studio %} &middot; {{ studio.name }}{% endif %}
+  </p>
+</div>
+
+<div class="kpi-grid">
+  {% for label, wert in kennzahlen.items() %}
+  <div class="kpi-card">
+    <div class="kpi-value">{{ wert }}</div>
+    <div class="kpi-label">{{ label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="quicklinks">
+  <a class="btn" href="{{ url_for('wochenplan') }}">Zum Wochenplan</a>
+  <a class="btn" href="{{ url_for('krankmeldung') }}">Krankmeldung erfassen</a>
+  {% if g.user.rolle == 'chef' %}
+  <a class="btn" href="{{ url_for('verwaltung_trainer') }}">Trainer verwalten</a>
+  {% endif %}
+</div>
+{% endblock %}

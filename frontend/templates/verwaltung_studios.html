@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Studios verwalten{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Studios verwalten</h1></div>
+
+<div class="card">
+  <h2>Neues Studio anlegen</h2>
+  <form method="post" class="form-grid">
+    <input type="hidden" name="aktion" value="neu">
+    <label>Name <input type="text" name="name" required></label>
+    <label>Adresse <input type="text" name="adresse"></label>
+    <button class="btn btn-primary" type="submit">Anlegen</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Studios ({{ studios|length }})</h2>
+  <table class="data">
+    <thead><tr><th>Name</th><th>Adresse</th><th></th></tr></thead>
+    <tbody>
+      {% for s in studios %}
+      <tr>
+        <td>{{ s.name }}</td>
+        <td>{{ s.adresse or '–' }}</td>
+        <td class="row-actions">
+          <details>
+            <summary class="btn btn-small">Bearbeiten</summary>
+            <form method="post" class="form-grid edit-form">
+              <input type="hidden" name="aktion" value="bearbeiten">
+              <input type="hidden" name="id" value="{{ s.id }}">
+              <label>Name <input type="text" name="name" value="{{ s.name }}" required></label>
+              <label>Adresse <input type="text" name="adresse" value="{{ s.adresse or '' }}"></label>
+              <button class="btn btn-primary btn-small" type="submit">Speichern</button>
+            </form>
+          </details>
+          <form method="post" onsubmit="return confirm('Studio wirklich löschen?');" style="display:inline">
+            <input type="hidden" name="aktion" value="loeschen">
+            <input type="hidden" name="id" value="{{ s.id }}">
+            <button class="btn btn-small btn-danger" type="submit">Löschen</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

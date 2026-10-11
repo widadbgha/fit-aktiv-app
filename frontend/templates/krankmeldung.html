@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Krankmeldung{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Krankmeldung erfassen</h1>
+  <p class="muted">Trainer für einen Zeitraum krank melden – das System sucht
+     automatisch Vertretungen und markiert nicht besetzbare Kurse als ausgefallen.</p>
+</div>
+
+<div class="card">
+  <form method="post" class="form-grid">
+    <label>Trainer
+      <select name="trainer_id" required>
+        {% for t in trainer_liste %}
+        <option value="{{ t.id }}">{{ t.name }} ({{ t.typ }}){{ ' – krank' if t.krank }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Von <input type="date" name="von" required></label>
+    <label>Bis <input type="date" name="bis" required></label>
+    <button class="btn btn-danger" type="submit">Krank melden &amp; Vertretung suchen</button>
+  </form>
+</div>
+
+{% if ergebnis %}
+<div class="card">
+  <h2>Zusammenfassung</h2>
+  <p>
+    <strong>{{ ergebnis.vertreten }}</strong> Kurs(e) erfolgreich vertreten,
+    <strong>{{ ergebnis.ausgefallen }}</strong> Kurs(e) ausgefallen.
+  </p>
+  {% if ergebnis.personalmangel %}
+  <div class="flash flash-warning">
+    Es konnten nicht alle Kurse vertreten werden – bitte zusätzliche Mitarbeiter einstellen!
+  </div>
+  {% endif %}
+  {% if ergebnis.details %}
+  <table class="data">
+    <thead><tr><th>Kurs-ID</th><th>Status</th><th>Ersatztrainer</th></tr></thead>
+    <tbody>
+      {% for d in ergebnis.details %}
+      <tr>
+        <td>#{{ d.plan_id }}</td>
+        <td>{% if d.status=='vertreten' %}<span class="tag tag-ok">vertreten</span>
+            {% else %}<span class="tag tag-bad">ausgefallen</span>{% endif %}</td>
+        <td>{{ d.ersatz or '–' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

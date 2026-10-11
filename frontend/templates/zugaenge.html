@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Zugänge{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Zugänge verwalten</h1>
+  <p class="muted">Alle Benutzerkonten mit Benutzername und Rolle. Passwörter
+     werden nur als Hash gespeichert – sie lassen sich nicht anzeigen, aber
+     jederzeit neu setzen.</p>
+</div>
+
+<div class="card">
+  <input id="suche" type="text" placeholder="Suchen (Benutzername oder Name) ..."
+         onkeyup="filtern()" style="width:100%;margin-bottom:1rem">
+
+  <div class="ztable">
+    <div class="zhead">
+      <span>Benutzername</span><span>Name</span><span>Rolle</span>
+      <span>Neues Passwort</span><span></span>
+    </div>
+    {% for u in users %}
+    <form method="post" class="zrow" data-k="{{ (u.username ~ ' ' ~ u.name)|lower }}">
+      <input type="hidden" name="id" value="{{ u.id }}">
+      <input type="text" name="username" value="{{ u.username }}">
+      <span>{{ u.name }}</span>
+      <span class="zrole">{{ {'chef':'Chef','manager':'Studio-Manager','trainer':'Trainer'}[u.rolle] }}</span>
+      <input type="password" name="passwort" placeholder="leer = unverändert" autocomplete="new-password">
+      <button class="btn btn-small btn-primary" type="submit">Speichern</button>
+    </form>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+// Einfache Sofort-Suche: blendet Zeilen aus, die nicht zum Suchbegriff passen.
+function filtern() {
+  var q = document.getElementById('suche').value.toLowerCase();
+  document.querySelectorAll('.zrow').forEach(function (r) {
+    r.style.display = r.dataset.k.indexOf(q) >= 0 ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}

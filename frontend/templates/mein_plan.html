@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Mein Wochenplan{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Mein Wochenplan</h1>
+  <p class="muted">
+    {{ trainer.name }} &middot; {{ 'Vollzeit' if trainer.typ=='VZ' else 'Teilzeit' }}
+    &middot; Kalenderwoche {{ kw }}
+    {% if trainer.krank %}<span class="badge badge-krank">krank gemeldet</span>{% endif %}
+  </p>
+</div>
+
+<div class="toolbar">
+  <div class="kw-nav">
+    <a class="btn btn-small" href="{{ url_for('mein_plan', kw=kw-1) }}">&laquo; KW {{ kw-1 }}</a>
+    <a class="btn btn-small" href="{{ url_for('mein_plan', kw=kw+1) }}">KW {{ kw+1 }} &raquo;</a>
+  </div>
+  <span class="muted">{{ anzahl }} Kurs(e) in dieser Woche</span>
+</div>
+
+<table class="plan">
+  <thead>
+    <tr>
+      <th class="timecol">Zeit</th>
+      {% for t in TAGE %}<th>{{ TAGE[t] }}<span class="th-date">{{ daten[t] }}</span></th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in SLOTS %}
+    <tr>
+      <th class="timecol">{{ SLOTS[u] }}</th>
+      {% for t in TAGE %}
+      <td>
+        {% for e in grid[u][t] %}
+          <div class="cell {{ 'cell-vertretung' if e.vertretung else 'cell-normal' }}">
+            <div class="cell-top"><span class="cell-kurs">{{ e.kurs }}</span><span class="cell-room">Raum {{ e.raum }}</span></div>
+            <div class="cell-info">{{ e.studio }}{% if e.vertretung %} (Vertretung){% endif %}</div>
+          </div>
+        {% endfor %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="card">
+  <h2>Krankmeldung</h2>
+  {% if trainer.krank %}
+    <p>Du bist aktuell als <strong>krank</strong> gemeldet. Deine Kurse im
+       gemeldeten Zeitraum wurden bereits vertreten oder als ausgefallen markiert.</p>
+  {% else %}
+    <p>Wenn du dich krank meldest, sucht das System automatisch eine Vertretung
+       für alle deine Kurse im gewählten Zeitraum.</p>
+    <form method="post" action="{{ url_for('krankmeldung_selbst') }}" class="inline-form">
+      <label>Von <input type="date" name="von" required></label>
+      <label>Bis <input type="date" name="bis" required></label>
+      <button class="btn btn-danger" type="submit">Krank melden</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}
