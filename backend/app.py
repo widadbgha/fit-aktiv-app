@@ -21,7 +21,7 @@ import domain
 app = Flask(__name__,
             template_folder="../frontend/templates",
             static_folder="../frontend/static")
-app.config["SECRET_KEY"] = "fit-und-aktiv-swe-praktikum-2026"
+os.environ.get("SECRET_KEY", "dev-only-key")
 
 # Verbindung am Request-Ende schliessen
 app.teardown_appcontext(db.close_db)
@@ -487,4 +487,4 @@ if __name__ == "__main__":
     if not _datenbank_ok():
         import seed
         seed.seed()
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
