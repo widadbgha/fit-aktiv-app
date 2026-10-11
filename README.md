@@ -1,4 +1,5 @@
 # Fit & Aktiv – Kurs- und Trainerverwaltung
+> **English summary:** Fit & Aktiv is a web application for scheduling fitness courses and managing trainers across 15 studios. Built with **Python (Flask)** and **SQLite** in a 3-layer architecture, it generates weekly course plans automatically (weekly hour limits, travel-time buffers between studios, room allocation), finds substitute trainers when someone reports sick, and provides role-based access for owner, studio managers and trainers. Developed as a university project (Software Engineering, SS 2026) , including requirements analysis, design documentation and automated tests.
 
 Implementierung zum Projektbericht der Projektgruppe 23-E (SWE-Praktikum, SS 2026).
 Die Anwendung setzt das in den Kapiteln 4–8 beschriebene Design 1:1 um:
