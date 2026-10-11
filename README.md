@@ -122,3 +122,11 @@ python backend/seed.py
 python tests/test_app.py       # 15 Testfälle (Login, Rollen, Plan, Krankmeldung)
 python tests/verify_rules.py   # prüft den generierten Plan auf Regelverstöße
 ```
+
+## Hinweis zur Nutzung
+
+Diese Anwendung ist ein Studienprojekt und für den **lokalen Betrieb** gedacht
+(Debug-Modus aktiv, Demo-Schlüssel und Demo-Zugänge mit dem Passwort `demo1234`).
+Für einen produktiven Einsatz müssten u. a. der `SECRET_KEY` über eine
+Umgebungsvariable gesetzt, der Debug-Modus abgeschaltet und die Demo-Zugänge
+entfernt werden.
